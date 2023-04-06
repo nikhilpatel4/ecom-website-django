@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+  <body>
+    <!---nav bar start--->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light" style="height:80px">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">My Ecommerce </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/college/allproducts/">Category</a>
+        </li>
+         <li class="nav-item">
+          <a class="nav-link" href="{% url 'mycart' %}">View Cart</a>
+        </li>
+<!--         <li class="nav-item dropdown">-->
+<!--                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+<!--                My Account-->
+<!--                </a>-->
+
+
+             {% if request.user.customer %}
+           <li class="nav-item">
+                <a class="nav-link" href="{% url 'customerprofile' %}">My Profile</a>
+           </li>
+          <li class="nav-item">
+                <a class="nav-link" href="{% url 'customerlogout' %}">Logout</a>
+          </li>
+                    {% else %}
+               <li class="nav-item">
+                <a class="nav-link" href="{% url 'customerregistration' %}">Register</a>
+               </li>
+               <li class="nav-item">
+                <a class="nav-link" href="{% url 'customerlogin' %}">Login</a>
+               </li>
+                    {% endif %}
+
+      </ul></div>
+
+         <form class="form-inline my-2 my-lg-0" action="{% url 'search' %}" method="GET">
+            <input name="keyword" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" required>
+            <button class="btn btn-danger my-2 my-sm-0" type="submit">Search</button>
+         </form>
+    </div>
+  </div>
+</nav>
+     <!---nav bar end--->
+
+{% block content %}
+
+{% endblock %}
+
+
+
+<!----footer Start-->
+
+<!----footer End-->
+
+
+
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>
+    -->
+  </body>
+</html>

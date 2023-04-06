@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load humanize %}
+<!---hamne load humanize ko install kiya hai settings.py file me or yaha usko load kiya haii ye sirf
+ itna kam karega ki jo hamara last me total haii (|intcomma) or aisa likha haii
+  par jab ham load humanize ko load karte haii to aisa likhte hi haii
+  to iska out put aisa aayega ki total=70000/- aisa na likhte huye 70,000 aisa ammount show hoga
+   ex= 130000 aisa total haii to load humanize ki wajah se 1,30,000 aise show hoga-->
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <h3>Order Detail</h3><hr>
+             <p><span class="font-weight-bold">Order ID: </span> #ORDER_{{ord_obj.id}}</p>
+            <p><span class="font-weight-bold">Order Status: </span> {{ord_obj.order_status}}</p>
+            <p><span class="font-weight-bold">Order On: </span> {{ord_obj.created_at}}({{ord_obj.created_at|timesince}} ago)</p>
+            <p><span class="font-weight-bold">Customer Information: </span> By {{ord_obj.ordered_by}}, {{ord_obj.mobile}}</p>
+            <p><span class="font-weight-bold">Shipping Address: </span> By {{ord_obj.shipping_address}} ({{ord_obj.email}})</p>
+
+        <h4>Ordered Items</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>SN</th>
+                        <th>Item</th>
+                        <th>Rate</th>
+                        <th>Quantity</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cp in ord_obj.cart.cartproduct_set.all %}
+
+                    <!--- kyo ki jab data addtocart hota haii to cart nam ke tbale me
+                    login user ka nam customer field me ja raha haii or total field me us addtocart kiye product ka total price ja raha haii
+                    usi time cartproduct name ke tables me jo user ne addtocart kiya haii uska cart field me cart ki id
+                     product ka nam rate quentity or subtotal insert ho jayega or cart product ka sara data view cart wale html page
+                     me sho karega jab ham ab is data ko urder karne ke liye checkout par click karege to ak checkout.html page pe
+                     jayega jaha hamko form fill kar ke order place karna haii or place order ka data order wale table me insert hoga
+                     or yahi order tables ka data hamko fetch hoke myprofile wale page dikhege par hamne aisa logik lagaya haii
+                     ki jo user login haii or usne jo data order kiya haii usko usi ka data dikhaye
+
+                     for cp in ord_obj.cart.cartproduct_set.all -->
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td><a target="_blank" href="{% url 'productdetail' cp.product.slug %}">{{cp.product.title}}({{cp.product.id}})</a></td>
+                        <td>{{cp.rate}}</td>
+                        <td>{{cp.quantity}}</td>
+                        <td>{{cp.subtotal}}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <th colspan="4" class="text-right">Total: </th>
+                         <th>Rs {{ord_obj.total|intcomma}}/-</th>
+
+
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
